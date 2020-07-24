@@ -11,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // routes
+app.use(require('./routes/post'));
 app.use(require('./routes/auth'));
 
 module.exports = app;
