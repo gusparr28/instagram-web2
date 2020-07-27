@@ -3,14 +3,15 @@ const postController = {};
 const Post = require('../models/Post');
 
 postController.createPost = async (req, res) => {
-    const { title, description } = req.body;
-    if (!title || !description) {
-        return res.status(422).json({ message: "Please complete all fields" });
+    const { title, description, image } = req.body;
+    if (!title || !description || !image) {
+        return res.status(422).json({ error: "Please complete all fields" });
     } else {
         req.user.password = undefined;
         const newPost = new Post({
             title,
             description,
+            image,
             author: req.user
         });
         const result = await newPost.save();
