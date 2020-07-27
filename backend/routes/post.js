@@ -9,9 +9,10 @@ router.route('/create')
     .post(requireSignIn, createPost)
 
 router.route('/posts')
-    .get(getPosts)
+    .get(requireSignIn, getPosts)
 
 router.route('/userPosts')
     .get(requireSignIn, getUserPosts)
 
 module.exports = router;
+
