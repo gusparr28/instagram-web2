@@ -30,11 +30,39 @@ postController.getUserPosts = (req, res) => {
     Post.find({ author: req.user._id })
         .populate("author", "_id name")
         .then(userPosts => {
-            res.json({userPosts})
+            res.json({ userPosts })
         })
         .catch(err => {
             console.log(err);
         });
-};  
+};
+
+postController.likePosts = (req, res) => {
+    Post.findOneAndUpdate(req.body.postId, {
+        $push: { likes: req.user._id }
+    }, {
+        new: true
+    }).exec((err, result) => {
+        if (err) {
+            return res.status(422).json({ error: err });
+        } else {
+            res.json(result);
+        }
+    });
+};
+
+postController.unlikePosts = (req, res) => {
+    Post.findOneAndUpdate(req.body.postId, {
+        $pull: { likes: req.user._id }
+    }, {
+        new: true
+    }).exec((err, result) => {
+        if (err) {
+            return res.status(422).json({ error: err });
+        } else {
+            res.json(result);
+        }
+    });
+};
 
 module.exports = postController;
