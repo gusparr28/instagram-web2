@@ -22,6 +22,7 @@ postController.createPost = async (req, res) => {
 postController.getPosts = (req, res) => {
     Post.find()
         .populate("author", "_id name")
+        .populate("comments.author", "_id name")
         .then(posts => res.json({ posts }))
         .catch(err => console.error(err));
 };
@@ -38,7 +39,7 @@ postController.getUserPosts = (req, res) => {
 };
 
 postController.likePosts = (req, res) => {
-    Post.findOneAndUpdate(req.body.postId, {
+    Post.findByIdAndUpdate(req.body.postId, {
         $push: { likes: req.user._id }
     }, {
         new: true
@@ -52,7 +53,7 @@ postController.likePosts = (req, res) => {
 };
 
 postController.unlikePosts = (req, res) => {
-    Post.findOneAndUpdate(req.body.postId, {
+    Post.findByIdAndUpdate(req.body.postId, {
         $pull: { likes: req.user._id }
     }, {
         new: true
@@ -63,6 +64,42 @@ postController.unlikePosts = (req, res) => {
             res.json(result);
         }
     });
+};
+
+postController.commentPosts = (req, res) => {
+    const comments = {
+        text: req.body.text,
+        author: req.user._id
+    }
+    Post.findByIdAndUpdate(req.body.postId, {
+        $push: { comments }
+    }, {
+        new: true
+    }).populate("comments.author", "_id name")
+        .populate("author", "_id name")
+        .exec((err, result) => {
+            if (err) {
+                return res.status(422).json({ error: err });
+            } else {
+                res.json(result);
+            };
+        });
+};
+
+postController.deletePosts = (req, res) => {
+    Post.findOne({ _id: req.params.postId })
+        .populate("author", "_id")
+        .exec((err, post) => {
+            if (err || !post) {
+                return res.status(422).json({ error: err })
+            }
+            if (post.author._id.toString() === req.user._id.toString()) {
+                post.remove()
+                    .then(result => {
+                        res.json(result)
+                    }).catch(err => console.error(err));
+            };
+        });
 };
 
 module.exports = postController;

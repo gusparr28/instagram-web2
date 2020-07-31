@@ -69,3 +69,11 @@ a {
 .favorite-icon {
     color: red;
 }
+
+.comment-author {
+    font-weight: bold;
+}
+
+.delete-icon {
+    float: right;
+}
