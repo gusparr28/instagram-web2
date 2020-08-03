@@ -11,6 +11,7 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import CreatePost from './components/CreatePost';
 import UserProfile from './components/UserProfile';
+import FollowingPosts from './components/FollowingPosts';
 
 export const UserContext = createContext();
 
@@ -34,6 +35,7 @@ const Routing = () => {
       <Route path="/signup" component={SignUp}></Route>
       <Route path="/create" component={CreatePost}></Route>
       <Route path="/profile/:userid" component={UserProfile}></Route>
+      <Route path="/followingPosts" component={FollowingPosts}></Route>
     </Switch>
   );
 };

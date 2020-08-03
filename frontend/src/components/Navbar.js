@@ -13,6 +13,7 @@ const NavBar = () => {
             return [
                 <li><Link className="nav-link" to="/profile">Profile</Link></li>,
                 <li><Link className="nav-link" to="/create">Create Post</Link></li>,
+                <li><Link className="nav-link" to="/followingPosts">My Following Posts</Link></li>,
                 <li>
                     <a onClick={() => {
                         localStorage.clear()
@@ -27,6 +28,7 @@ const NavBar = () => {
             return [
                 <li><Link className="nav-link" to="/signin">Sign In</Link></li>,
                 <li><Link className="nav-link" to="/signup">Sign Up</Link></li>
+
             ];
         };
     };

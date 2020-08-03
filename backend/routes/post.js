@@ -3,7 +3,7 @@ const router = Router();
 
 const requireSignIn = require('../middleware/requireSignIn');
 
-const { createPost, getPosts, getUserPosts, likePosts, unlikePosts, commentPosts, deletePosts } = require('../controllers/postController');
+const { createPost, getPosts, getUserPosts, likePosts, unlikePosts, commentPosts, deletePosts, getFollowingPosts } = require('../controllers/postController');
 
 router.route('/create')
     .post(requireSignIn, createPost)
@@ -25,5 +25,9 @@ router.route('/comments')
 
 router.route('/deletePost/:postId')
     .delete(requireSignIn, deletePosts)
+
+router.route('/followingPosts')
+    .get(requireSignIn, getFollowingPosts)
+
 
 module.exports = router;

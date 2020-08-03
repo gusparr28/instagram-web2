@@ -5,7 +5,7 @@ import M from 'materialize-css'
 
 const SignIn = () => {
 
-    const {state, dispatch} = useContext(UserContext);
+    const { state, dispatch } = useContext(UserContext);
     const history = useHistory();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -32,7 +32,7 @@ const SignIn = () => {
                 } else {
                     localStorage.setItem("jwt", data.token);
                     localStorage.setItem("user", JSON.stringify(data.user));
-                    dispatch({type: "USER", payload: data.user});
+                    dispatch({ type: "USER", payload: data.user });
                     M.toast({ html: 'User successfully signed in', classes: 'rounded #43a047 green darken-1' });
                     history.push('/');
                 };

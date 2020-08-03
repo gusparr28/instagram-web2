@@ -7,7 +7,7 @@ const authController = {};
 const User = require('../models/User');
 
 authController.signUpUser = (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, image } = req.body;
     if (!name || !email || !password) {
         return res.status(422).json({ error: "Please complete all fields" });
     } else {
@@ -21,7 +21,8 @@ authController.signUpUser = (req, res) => {
                             const newUser = new User({
                                 name,
                                 email,
-                                password: hashedPassword
+                                password: hashedPassword,
+                                image
                             });
                             await newUser.save();
                             res.json({ message: "User succesfully signed up" });
@@ -51,8 +52,8 @@ authController.signInUser = (req, res) => {
                         .then(correctCreds => {
                             if (correctCreds) {
                                 const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
-                                const { _id, name, email } = savedUser;
-                                res.json({ token, user: { _id, name, email } });
+                                const { _id, name, email, followers, following, image } = savedUser;
+                                res.json({ token, user: { _id, name, email, followers, following, image } });
                             } else {
                                 return res.status(422).json({ error: "Invalid credentials" });
                             };

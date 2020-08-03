@@ -14,6 +14,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    image: {
+        type: String,
+        default: "https://res.cloudinary.com/instagram-web2/image/upload/v1596229249/unnamed_q4rlmp.png"
+    },
     followers: [{
         type: ObjectId, 
         ref: "User"
